@@ -36,7 +36,7 @@ BibTeX:
 
 	@article{huang2016dmssa,
 	  title={Damped Multichannel Singular Spectrum Analysis for 3{D} Random Noise Attenuation},
-	  author={Chen, Yangkang and Fomel, Sergey},
+	  author={Weilin Huang and Runqiu Wang and  Yangkang Chen and Huijian Li and Shuwei Gan},
 	  journal={Geophysics},
 	  volume={81},
 	  number={4},
