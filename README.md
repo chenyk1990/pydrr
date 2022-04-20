@@ -20,8 +20,7 @@ BibTeX:
 	  journal={Computers \& Geosciences},
 	  volume={95},
 	  pages={59-66},
-	  year={2015},
-	  publisher={Society of Exploration Geophysicists}
+	  year={2016}
 	}
 
 	@article{chen2016drr5d,
@@ -32,8 +31,7 @@ BibTeX:
 	  number={3},
 	  issue={3},
 	  pages={1695-1717},
-	  year={2016},
-	  publisher={Society of Exploration Geophysicists}
+	  year={2016}
 	}
 
 	@article{huang2016dmssa,
