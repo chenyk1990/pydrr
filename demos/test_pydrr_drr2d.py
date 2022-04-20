@@ -1,4 +1,4 @@
-#  DEMO script (python version) for calculating local orthogonalization and its application in random noise attenuation 
+#  DEMO script (python version) for DRR
 #  
 #  Copyright (C) 2022 Yangkang Chen
 #  
@@ -12,26 +12,11 @@
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details: http://www.gnu.org/licenses/
 #  
-#  Reference:   1. Random noise attenuation using local signal-and-noise orthogonalization
-#               Chen and Fomel, 2015, Geophysics
-#               2. Ground-Roll Noise Attenuation Using a Simple and Effective Approach Based on 
-#               Local Band-Limited Orthogonalization, Chen et al., 2015, IEEE Geoscience and Remote Sensing Letters
-#               3. Iterative deblending with multiple constraints based on shaping regularization,
-#               Chen, 2015, IEEE Geoscience and Remote Sensing Letters
-#               4. Orthogonalized morphological reconstruction for weak signal detection in micro-seismic monitoring:
-#               Methodology, Huang et al., 2018, GJI
-#               5. Surface-related multiple leakage extraction using local primary-and-multiple 
-#               orthogonalization, Zhang et al., 2020, Geophysics
-#               6. Non-stationary local signal-and-noise orthogonalization, Chen et al.,
-#               2021, Geophysics
-#               7. Local primary-and-multiple orthogonalization for leaked internal multiple crosstalk estimation and attenuation on full-wavefield migrated images
-#               Zhang, et al., 2021, Geophysics
-
 ## generate synthetic data
 #This synthetic data was used in Huang et al., 2016, Damped multichannel singular spectrum analysis for 3D random noise attenuation, Geophysics, 81, V261-V270.
 import numpy as np
 import matplotlib.pyplot as plt
-import pyortho as lo #lo: local orthogonalization
+import pydrr as pd #lo: local orthogonalization
 
 ## generate the synthetic data
 a1=np.zeros([300,80])
@@ -78,60 +63,38 @@ dn=d0+n;
 print(np.std(dn))
 
 
-
-d1=lo.drr3d(dn,0,120,0.004,3,1);	#DMSSA (when damping factor =1, there are heavy damages)
+## Comparison between RR and DRR
+d1=pd.drr3d(dn,0,120,0.004,3,100);	#RR 
 noi1=dn-d1;
 
+d2=pd.drr3d(dn,0,120,0.004,3,3);	#DRR
+noi2=dn-d2;
 
-## calculate local orthogonalization
-rect=[20,20,1];
-eps=0;
-niter=20;
-verb=1;
-[d2,noi2,low]=lo.localortho(d1,noi1,rect,niter,eps,verb);
-## Use Python 3 (Windows)
-d2 = np.squeeze(d2)  
-noi2 = np.squeeze(noi2)
-## calculate local similarity
-simi1=lo.localsimi(d1,noi1,[5,5,1],niter,eps,verb);
-simi2=lo.localsimi(d2,noi2,[5,5,1],niter,eps,verb);
-## Use Python 3 (Windows)
-simi1 = np.squeeze(simi1)  
-simi2 = np.squeeze(simi2)
-## compare SNR
-print('SNR of initial denoising is %g'%lo.snr(d0,d1));
-print('SNR of local orthogonalization is %g'%lo.snr(d0,d2));
+print('SNR of initial denoising is %g'%pd.snr(d0,d1));
+print('SNR of local orthogonalization is %g'%pd.snr(d0,d2));
 
 ## plot results
-fig = plt.figure(figsize=(10, 5))
+fig = plt.figure(figsize=(8, 8.5))
 ax = fig.add_subplot(3,2,1)
 # ax.set_xticks([])
 # ax.set_yticks([])
-plt.imshow(dn,cmap='jet',clim=(-0.2, 0.2),aspect=0.2)
+plt.imshow(dn,cmap='jet',clim=(-0.1, 0.1),aspect=0.2)
 plt.title('Noisy data');
 fig.add_subplot(3,2,3)
-plt.imshow(d1,cmap='jet',clim=(-0.2, 0.2),aspect=0.2)
-plt.title('Initial denoising');
+plt.imshow(d1,cmap='jet',clim=(-0.1, 0.1),aspect=0.2)
+plt.title('RR');
 fig.add_subplot(3,2,4)
-plt.imshow(noi1,cmap='jet',clim=(-0.2, 0.2),aspect=0.2)
-plt.title('Initial denoising');
-plt.imshow(dn,cmap='jet',clim=(-0.2, 0.2),aspect=0.2)
+plt.imshow(noi1,cmap='jet',clim=(-0.1, 0.1),aspect=0.2)
+plt.title('RR');
 fig.add_subplot(3,2,5)
-plt.imshow(d2,cmap='jet',clim=(-0.2, 0.2),aspect=0.2)
-plt.title('Local orthogonalization');
+plt.imshow(d2,cmap='jet',clim=(-0.1, 0.1),aspect=0.2)
+plt.title('DRR');
 fig.add_subplot(3,2,6)
-plt.imshow(noi2,cmap='jet',clim=(-0.2, 0.2),aspect=0.2)
-plt.title('Local orthogonalization');
+plt.imshow(noi2,cmap='jet',clim=(-0.1, 0.1),aspect=0.2)
+plt.title('DRR');
 plt.show()
 
-fig = plt.figure(figsize=(5, 6))
-fig.add_subplot(2, 1, 1)
-plt.imshow(simi1,cmap='jet',clim=(0,1),aspect=0.2)
-plt.title('Local similarity: Initial denoising');
-fig.add_subplot(2, 1, 2)
-plt.imshow(simi2,cmap='jet',clim=(0,1),aspect=0.2)
-plt.title('Local similarity: Local orthogonalization');
-plt.show()
+
 
 
 

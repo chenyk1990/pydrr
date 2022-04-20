@@ -43,6 +43,7 @@ logger.addHandler(ch)
 
 from .drr3d import drr3d
 from .drr5d import drr5d
+from .snr import snr
 
 
 
