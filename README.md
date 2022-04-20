@@ -13,6 +13,7 @@
     Huang, W., Wang, R., Chen, Y., Li, H., & Gan, S. (2016). Damped multichannel singular spectrum analysis for 3D random noise attenuation. Geophysics, 81(4), V261-V270.
 
 BibTeX:
+
 	@article{chen2016drr3d,
 	  title={An open-source Matlab code package for improved rank-reduction 3{D} seismic data denoising and reconstruction},
 	  author={Yangkang Chen and Dong Zhang and Weilin Huang and Wei Chen},
