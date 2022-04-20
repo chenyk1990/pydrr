@@ -53,25 +53,37 @@ for i in range(m):
   a3[t3[i]:t3[i]+k+1,i]=b1; 
   a4[t4[i]:t4[i]+k+1,i]=b1; 
 
-d0=a1[0:300,:]+a3[0:300,:]+a4[0:300,:];
+dc=a1[0:300,:]+a3[0:300,:]+a4[0:300,:];
 
 ## add noise
-[n1,n2]=d0.shape
+[n1,n2]=dc.shape
 np.random.seed(201415)
 n=0.1*np.random.randn(n1,n2);
-dn=d0+n;
+dn=dc+n;
 print(np.std(dn))
 
+## decimate traces
+ratio=0.7;
+mask=pd.genmask(dn,ratio,'c',201415);
+d0=dn*mask;
+print(np.std(d0))
 
-## Comparison between RR and DRR
-d1=pd.drr3d(dn,0,120,0.004,3,100);	#RR 
-noi1=dn-d1;
+## Recon
+flow=0;fhigh=125;dt=0.004;N=3;NN=3;Niter=10;mode=1;a=np.linspace(1,0,10);verb=1;eps=0.00001;
+d1=pd.drr3drecon(d0,mask,flow,fhigh,dt,N,100,Niter,eps,mode,a,verb);
+d2=pd.drr3drecon(d0,mask,flow,fhigh,dt,N,NN,Niter,eps,mode,a,verb);
+noi1=dc-d1;
+noi2=dc-d2;
 
-d2=pd.drr3d(dn,0,120,0.004,3,3);	#DRR
-noi2=dn-d2;
 
-print('SNR of RR is %g'%pd.snr(d0,d1));
-print('SNR of DRR is %g'%pd.snr(d0,d2));
+print('SNR of RR is %g'%pd.snr(dc,d1));
+print('SNR of DRR is %g'%pd.snr(dc,d2));
+
+## compare with matlab
+import scipy
+from scipy import io
+datas = {"d0":d0,"dc":dc,"mask":mask,"dn": dn, "d1": d1, "noi1": noi1, "d2":d2, "noi2":noi2}
+scipy.io.savemat("datas2d.mat", datas)
 
 ## plot results
 fig = plt.figure(figsize=(8, 8.5))
@@ -80,6 +92,9 @@ ax = fig.add_subplot(3,2,1)
 # ax.set_yticks([])
 plt.imshow(dn,cmap='jet',clim=(-0.1, 0.1),aspect=0.2)
 plt.title('Noisy data');
+ax = fig.add_subplot(3,2,2)
+plt.imshow(d0,cmap='jet',clim=(-0.1, 0.1),aspect=0.2)
+plt.title('Incomplete data');
 fig.add_subplot(3,2,3)
 plt.imshow(d1,cmap='jet',clim=(-0.1, 0.1),aspect=0.2)
 plt.title('RR');

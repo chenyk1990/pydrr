@@ -1,7 +1,7 @@
 import numpy as np
 import scipy
 from scipy import linalg
-def drr3d(D, flow=1, fhigh=124, dt=0.004, N=1, K=1, verb=0):
+def drr3d(D, flow=1, fhigh=124, dt=0.004, N=1, K=3, verb=0):
 	#DRR3D: 3D rank-reduction method for denoising (also known as FXYDMSSA)
 	#
 	#IN   D:   	 intput 3D data (ndarray)
@@ -38,8 +38,8 @@ def drr3d(D, flow=1, fhigh=124, dt=0.004, N=1, K=1, verb=0):
 	#[5] Chen et al., 2019, Obtaining free USArray data by multi-dimensional seismic reconstruction, Nature Communications, 10:4434.
 	#
 	# DEMO
-	# demos/test_pyortho_localortho2d.py
-	# demos/test_pyortho_localortho3d.py
+	# demos/test_pydrr_localortho2d.py
+	# demos/test_pydrr_localortho3d.py
 	
 	print('flow=',flow,'fhigh=',fhigh,'dt=',dt,'N=',N,'K=',K,'verb=',verb)
 
@@ -96,7 +96,7 @@ def drr3d(D, flow=1, fhigh=124, dt=0.004, N=1, K=1, verb=0):
 	
 	return D1
 
-def drr3drecon(D, flow=1, fhigh=124, dt=0.004, N=1, K=1, verb=0):
+def drr3drecon(D, MASK, flow=1, fhigh=124, dt=0.004, N=3, K=3, Niter=10,eps=0.00001,mode=0,a=1,verb=0):
 	#DRR3D: 3D rank-reduction method for denoising (also known as FXYDMSSA)
 	#
 	#IN   D:   	 intput 3D data (ndarray)
@@ -133,14 +133,23 @@ def drr3drecon(D, flow=1, fhigh=124, dt=0.004, N=1, K=1, verb=0):
 	#[5] Chen et al., 2019, Obtaining free USArray data by multi-dimensional seismic reconstruction, Nature Communications, 10:4434.
 	#
 	# DEMO
-	# demos/test_pyortho_localortho2d.py
-	# demos/test_pyortho_localortho3d.py
+	# demos/test_pydrr_localortho2d.py
+	# demos/test_pydrr_localortho3d.py
 	
-	print('flow=',flow,'fhigh=',fhigh,'dt=',dt,'N=',N,'K=',K,'verb=',verb)
+	
 
+	if mode==0:
+		a=np.ones([Niter,1]);
+	print('flow=',flow,'fhigh=',fhigh,'dt=',dt,'N=',N,'K=',K,'Niter=',Niter,'eps=',eps,'mode=',mode,'verb=',verb)
 	if D.ndim==2:	#for 2D problems
 		D=np.expand_dims(D, axis=2)
-
+	if MASK.ndim==2:	#for 2D problems
+		MASK=np.expand_dims(MASK, axis=2)
+		
+	mask=np.squeeze(MASK[0,:,:]);
+	if mask.ndim==1:	#for 2D problems
+		mask=np.expand_dims(mask, axis=1)
+		
 	[nt,nx,ny]=D.shape
 	D1=np.zeros([nt,nx,ny])
 	
@@ -169,15 +178,40 @@ def drr3drecon(D, flow=1, fhigh=124, dt=0.004, N=1, K=1, verb=0):
 	lyy=ny-ly+1;
 	M=np.zeros([lx*ly,lxx*lyy]);
 	
+# 	if(ny==1):
+# 		mask=mask.transpose(); 
+	
+	print('mask.shape',mask.shape)
 	#main loop
 	for k in range(ilow,ihigh+1):
 		
-		M=P_H(DATA_FX[k-1,:,:],lx,ly); 
-		M=P_RD(M,N,K);
-		DATA_FX0[k-1,:,:]=P_A(M,nx,ny,lx,ly);
+		
+# 		if(ny==1):
+# 			S_obs=DATA_FX[k-1,:,:].transpose();
+# 			print(S_obs.shape,DATA_FX[k-1,:,:].shape,DATA_FX.shape)
+# 		else:
+		S_obs=np.squeeze(DATA_FX[k-1,:,:]);   
+		
+		if S_obs.ndim==1:	#for 2D problems
+			S_obs=np.expand_dims(S_obs, axis=1)
+		Sn_1=S_obs;
+		
+		for iter in range(Niter):
+			
+			M=P_H(Sn_1,lx,ly); 
+			M=P_RD(M,N,K);
+			Sn=P_A(M,nx,ny,lx,ly);
+			
+			Sn=a[iter]*S_obs+(1-a[iter])*mask*Sn+(1-mask)*Sn;
+			
+			if np.linalg.norm(Sn-Sn_1,'fro')<eps:
+				break;
+			
+			Sn_1=Sn;
+		DATA_FX0[k-1,:,:]=Sn;
 		
 		if np.mod(k,5)==0 and verb==1 : 
-			print('F %d is done!\n\n'%k);
+			print('F %d is done!'%k);
 	
 	for k in range(int(nf/2)+2,nf+1):
 		DATA_FX0[k-1,:,:] = np.conj(DATA_FX0[nf-k+1,:,:]);
@@ -221,7 +255,7 @@ def P_RD(din,N,K):
 	"""Rank reduction on the block Hankel matrix"""
 	[U,D,V]=scipy.linalg.svd(din)
 	for j in range(1,N+1):
-		D[j-1]=D[j-1]*(1-np.power(D[N],K)/np.power(D[j-1],K))
+		D[j-1]=D[j-1]*(1-np.power(D[N],K)/(np.power(D[j-1],K)+0.000000000000001))
 	dout=np.mat(U[:,0:N])*np.mat(np.diag(D[0:N]))*np.mat(V[0:N,:]);
 
 	return dout
