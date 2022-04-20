@@ -6,33 +6,13 @@
 **Pydrr** is a a python package for the damped rank reduction (DRR) method and its several variants. The DRR method has a variety of applications in both exploration and earthquake seismology, including but not limited to seismic denoising, seismic reconstruction, seismic diffraction separation, constrained LSRTM, constrained FWI, etc.
 
 ## Reference
+    Huang, W., Wang, R., Chen, Y., Li, H., & Gan, S. (2016). Damped multichannel singular spectrum analysis for 3D random noise attenuation. Geophysics, 81(4), V261-V270.
+
     Chen, Y., Huang, W., Zhang, D., & Chen, W. (2016). An open-source Matlab code package for improved rank-reduction 3D seismic data denoising and reconstruction. Computers & Geosciences, 95, 59-66.
     
     Chen, Y., Zhang, D., Jin, Z., Chen, X., Zu, S., Huang, W., & Gan, S. (2016). Simultaneous denoising and reconstruction of 5-D seismic data via damped rank-reduction method. Geophysical Journal International, 206(3), 1695-1717.
     
-    Huang, W., Wang, R., Chen, Y., Li, H., & Gan, S. (2016). Damped multichannel singular spectrum analysis for 3D random noise attenuation. Geophysics, 81(4), V261-V270.
-
 BibTeX:
-
-	@article{chen2016drr3d,
-	  title={An open-source Matlab code package for improved rank-reduction 3{D} seismic data denoising and reconstruction},
-	  author={Yangkang Chen and Dong Zhang and Weilin Huang and Wei Chen},
-	  journal={Computers \& Geosciences},
-	  volume={95},
-	  pages={59-66},
-	  year={2016}
-	}
-
-	@article{chen2016drr5d,
-	  title={Simultaneous denoising and reconstruction of 5{D} seismic data via damped rank-reduction method},
-	  author={Yangkang Chen and Dong Zhang and Zhaoyu Jin and Xiaohong Chen and Shaohuan Zu and Weilin Huang and Shuwei Gan},
-	  journal={Geophysical Journal International},
-	  volume={206},
-	  number={3},
-	  issue={3},
-	  pages={1695-1717},
-	  year={2016}
-	}
 
 	@article{huang2016dmssa,
 	  title={Damped Multichannel Singular Spectrum Analysis for 3{D} Random Noise Attenuation},
@@ -45,6 +25,27 @@ BibTeX:
 	  year={2016},
 	  publisher={Society of Exploration Geophysicists}
 	}
+
+	@article{chen2016drr5d,
+	  title={Simultaneous denoising and reconstruction of 5{D} seismic data via damped rank-reduction method},
+	  author={Yangkang Chen and Dong Zhang and Zhaoyu Jin and Xiaohong Chen and Shaohuan Zu and Weilin Huang and Shuwei Gan},
+	  journal={Geophysical Journal International},
+	  volume={206},
+	  number={3},
+	  issue={3},
+	  pages={1695-1717},
+	  year={2016}
+	}
+	
+	@article{chen2016drr3d,
+	  title={An open-source Matlab code package for improved rank-reduction 3{D} seismic data denoising and reconstruction},
+	  author={Yangkang Chen and Dong Zhang and Weilin Huang and Wei Chen},
+	  journal={Computers \& Geosciences},
+	  volume={95},
+	  pages={59-66},
+	  year={2016}
+	}
+
 -----------
 ## Copyright
     Initial version: Yangkang Chen (chenyk2016@gmail.com), 2021-2022
