@@ -252,9 +252,6 @@ def P_H(din,lx,ly,lhx,lhy):
 				r=scipy.linalg.hankel(din[0:lx,j-1,kx-1,ky-1],din[lx-1:nx,j-1,kx-1,ky-1]);
 				if j<ly:
 					for id in range(1,j+1):
-# 						print((j-1)*lx-(id-1)*lx,j*lx-(id-1)*lx,(id-1)*lxx,lxx+(id-1)*lxx)
-# 						print(type((j-1)*lx-(id-1)*lx),type(j*lx-(id-1)*lx),type((id-1)*lxx),type(lxx+(id-1)*lxx))
-# 						print(type(r))
 						r1o[(j-1)*lx-(id-1)*lx:j*lx-(id-1)*lx,(id-1)*lxx:lxx+(id-1)*lxx] = r;
 				else:
 					for id in range(1,ny-j+2):
