@@ -61,7 +61,7 @@ scipy.io.savemat("datas5d.mat", datas)
 
 
 ## plotting
-fig = plt.figure(figsize=(5, 7))
+fig = plt.figure(figsize=(4, 8))
 fig.add_subplot(3, 2, 1)
 plt.imshow(dn[:,:,:,5,5].transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.1, 0.1))
 plt.title('Noisy data');
