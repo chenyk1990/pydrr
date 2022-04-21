@@ -38,8 +38,8 @@ def drr3d(D, flow=1, fhigh=124, dt=0.004, N=1, K=3, verb=0):
 	#[5] Chen et al., 2019, Obtaining free USArray data by multi-dimensional seismic reconstruction, Nature Communications, 10:4434.
 	#
 	# DEMO
-	# demos/test_pydrr_localortho2d.py
-	# demos/test_pydrr_localortho3d.py
+	# demos/test_pydrr_drr2d.py
+	# demos/test_pydrr_drr3d.py
 	
 	print('flow=',flow,'fhigh=',fhigh,'dt=',dt,'N=',N,'K=',K,'verb=',verb)
 
@@ -133,8 +133,8 @@ def drr3drecon(D, MASK, flow=1, fhigh=124, dt=0.004, N=3, K=3, Niter=10,eps=0.00
 	#[5] Chen et al., 2019, Obtaining free USArray data by multi-dimensional seismic reconstruction, Nature Communications, 10:4434.
 	#
 	# DEMO
-	# demos/test_pydrr_localortho2d.py
-	# demos/test_pydrr_localortho3d.py
+	# demos/test_pydrr_drr2drecon.py
+	# demos/test_pydrr_drr3drecon.py
 	
 	
 
@@ -178,20 +178,10 @@ def drr3drecon(D, MASK, flow=1, fhigh=124, dt=0.004, N=3, K=3, Niter=10,eps=0.00
 	lyy=ny-ly+1;
 	M=np.zeros([lx*ly,lxx*lyy]);
 	
-# 	if(ny==1):
-# 		mask=mask.transpose(); 
-	
 	print('mask.shape',mask.shape)
 	#main loop
 	for k in range(ilow,ihigh+1):
-		
-		
-# 		if(ny==1):
-# 			S_obs=DATA_FX[k-1,:,:].transpose();
-# 			print(S_obs.shape,DATA_FX[k-1,:,:].shape,DATA_FX.shape)
-# 		else:
 		S_obs=np.squeeze(DATA_FX[k-1,:,:]);   
-		
 		if S_obs.ndim==1:	#for 2D problems
 			S_obs=np.expand_dims(S_obs, axis=1)
 		Sn_1=S_obs;
