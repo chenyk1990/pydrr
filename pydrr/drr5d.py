@@ -2,9 +2,9 @@ import numpy as np
 import scipy
 from scipy import linalg
 def drr5d(D, flow=1, fhigh=124, dt=0.004, N=1, K=3, verb=0):
-	#DRR5D: 4D/5D rank-reduction method for denoising (also known as FXYDMSSA)
+	#DRR5D: 4D/5D rank-reduction method for denoising
 	#
-	#IN   D:   	 intput 3D data (ndarray)
+	#IN   D:   	 intput 4D/5D data (ndarray)
 	#     flow:   processing frequency range (lower)
 	#     fhigh:  processing frequency range (higher)
 	#     dt:     temporal sampling interval
@@ -103,9 +103,9 @@ def drr5d(D, flow=1, fhigh=124, dt=0.004, N=1, K=3, verb=0):
 	return D1
 
 def drr5drecon(D, MASK, flow=1, fhigh=124, dt=0.004, N=3, K=3, Niter=10,eps=0.00001,mode=0,a=1,verb=0):
-	#DRR5D: 4D/5D rank-reduction method for denoising (also known as FXYDMSSA)
+	#DRR5D: 4D/5D rank-reduction method for denoising
 	#
-	#IN   D:   	 intput 3D data (ndarray)
+	#IN   D:   	 intput 4D/5D data (ndarray)
 	#     flow:   processing frequency range (lower)
 	#     fhigh:  processing frequency range (higher)
 	#     dt:     temporal sampling interval
