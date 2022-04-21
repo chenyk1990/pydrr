@@ -13,6 +13,7 @@ __version__ = "0.0.0"
 from .drr3d import drr3d
 from .drr3d import drr3drecon
 from .drr5d import drr5d
+from .drr5d import drr5drecon
 from .snr import snr
 from .genmask import genmask
 
