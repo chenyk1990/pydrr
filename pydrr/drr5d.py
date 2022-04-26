@@ -51,7 +51,7 @@ def drr5d(D, flow=1, fhigh=124, dt=0.004, N=1, K=3, verb=0):
 	[nt,nx,ny,nhx,nhy]=D.shape
 	D1=np.zeros([nt,nx,ny,nhx,nhy])
 	
-	nf=2^nextpow2(nt);
+	nf=nextpow2(nt);
 	nf=int(nf)
 	
 	#Transform into F-X domain
@@ -160,7 +160,7 @@ def drr5drecon(D, MASK, flow=1, fhigh=124, dt=0.004, N=3, K=3, Niter=10,eps=0.00
 	[nt,nx,ny,nhx,nhy]=D.shape
 	D1=np.zeros([nt,nx,ny,nhx,nhy])
 	
-	nf=2^nextpow2(nt);
+	nf=nextpow2(nt);
 	nf=int(nf)
 	
 	#Transform into F-X domain
