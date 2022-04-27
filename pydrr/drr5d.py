@@ -78,7 +78,7 @@ def drr5d(D, flow=1, fhigh=124, dt=0.004, N=1, K=3, verb=0):
 	lhxx=nhx-lhx+1;
 	lhy=int(np.floor(nhy/2)+1);
 	lhyy=nhy-lhy+1;
-	M=np.zeros([lx*ly*lhx*lhy,lxx*lyy*lhxx*lhyy]);
+	M=np.zeros([lx*ly*lhx*lhy,lxx*lyy*lhxx*lhyy],dtype=np.complex_);
 	
 	#main loop
 	for k in range(ilow,ihigh+1):
@@ -187,7 +187,7 @@ def drr5drecon(D, MASK, flow=1, fhigh=124, dt=0.004, N=3, K=3, Niter=10,eps=0.00
 	lhxx=nhx-lhx+1;
 	lhy=int(np.floor(nhy/2)+1);
 	lhyy=nhy-lhy+1;
-	M=np.zeros([lx*ly*lhx*lhy,lxx*lyy*lhxx*lhyy]);
+	M=np.zeros([lx*ly*lhx*lhy,lxx*lyy*lhxx*lhyy],dtype=np.complex_);
 	
 	#main loop
 	for k in range(ilow,ihigh+1):
