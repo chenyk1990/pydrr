@@ -74,8 +74,9 @@ or using Pypi
     
 -----------
 ## Gallery
-    The gallery figures of the pydrr package can be found at https://github.com/chenyk1990/gallery/tree/main/pydrr. 
-    Each figure in the gallery directory corresponds to a DEMO script in the "demo" directory with the exactly the same file name.
+The gallery figures of the pydrr package can be found at
+    https://github.com/chenyk1990/gallery/tree/main/pydrr
+Each figure in the gallery directory corresponds to a DEMO script in the "demo" directory with the exactly the same file name.
 
 -----------
 ## Dependence Packages
