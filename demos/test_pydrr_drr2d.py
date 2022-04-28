@@ -76,22 +76,21 @@ print('SNR of DRR is %g'%pd.snr(d0,d2));
 ## plot results
 fig = plt.figure(figsize=(8, 8.5))
 ax = fig.add_subplot(3,2,1)
-# ax.set_xticks([])
-# ax.set_yticks([])
-plt.imshow(dn,cmap='jet',clim=(-0.1, 0.1),aspect=0.2)
+plt.imshow(dn,cmap='jet',clim=(-0.1, 0.1),aspect=0.2);ax.set_xticks([]);ax.set_yticks([]);
 plt.title('Noisy data');
-fig.add_subplot(3,2,3)
-plt.imshow(d1,cmap='jet',clim=(-0.1, 0.1),aspect=0.2)
-plt.title('RR');
-fig.add_subplot(3,2,4)
-plt.imshow(noi1,cmap='jet',clim=(-0.1, 0.1),aspect=0.2)
-plt.title('RR');
-fig.add_subplot(3,2,5)
-plt.imshow(d2,cmap='jet',clim=(-0.1, 0.1),aspect=0.2)
-plt.title('DRR');
-fig.add_subplot(3,2,6)
-plt.imshow(noi2,cmap='jet',clim=(-0.1, 0.1),aspect=0.2)
-plt.title('DRR');
+ax = fig.add_subplot(3,2,3)
+plt.imshow(d1,cmap='jet',clim=(-0.1, 0.1),aspect=0.2);ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Denoised (RR, SNR=%.4g dB)'%pd.snr(d0,d1));
+ax = fig.add_subplot(3,2,4)
+plt.imshow(noi1,cmap='jet',clim=(-0.1, 0.1),aspect=0.2);ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Noise (RR)');
+ax = fig.add_subplot(3,2,5)
+plt.imshow(d2,cmap='jet',clim=(-0.1, 0.1),aspect=0.2);ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Denoised (DRR, SNR=%.4g dB)'%pd.snr(d0,d2));
+ax = fig.add_subplot(3,2,6)
+plt.imshow(noi2,cmap='jet',clim=(-0.1, 0.1),aspect=0.2);ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Noise (DRR)');
+plt.savefig('test_pydrr_drr2d.png',format='png',dpi=300);
 plt.show()
 
 
