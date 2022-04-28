@@ -50,8 +50,10 @@ noi1=d-d1;
 noi2=d-d2;
 
 ## compare SNR
-print('SNR of RR is %g'%pd.snr(d[:,:,:,5,5],d1[:,:,:,5,5],2));
-print('SNR of DRR is %g'%pd.snr(d[:,:,:,5,5],d2[:,:,:,5,5],2));
+snr1=pd.snr(d[:,:,:,5,5],d1[:,:,:,5,5],2);
+snr2=pd.snr(d[:,:,:,5,5],d2[:,:,:,5,5],2);
+print('SNR of RR is %g'%snr1);
+print('SNR of DRR is %g'%snr2);
 
 ## compare with matlab
 import scipy
@@ -61,26 +63,30 @@ scipy.io.savemat("datas5d.mat", datas)
 
 
 ## plotting
-fig = plt.figure(figsize=(4, 8))
-fig.add_subplot(3, 2, 1)
-plt.imshow(dn[:,:,:,5,5].transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.1, 0.1))
+fig = plt.figure(figsize=(8, 8))
+ax=fig.add_subplot(3, 2, 1)
+plt.imshow(dn[:,:,:,5,5].transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.05,0.05),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
 plt.title('Noisy data');
-fig.add_subplot(3, 2, 2)
-plt.imshow(d0[:,:,:,5,5].transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.1, 0.1))
+ax=fig.add_subplot(3, 2, 2)
+plt.imshow(d0[:,:,:,5,5].transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.05,0.05),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
 plt.title('Incomplete data');
-fig.add_subplot(3, 2, 3)
-plt.imshow(d1[:,:,:,5,5].reshape(n1,n2*n3,order='F'),cmap='jet',clim=(-0.1, 0.1))
-plt.title('RR');
-fig.add_subplot(3, 2, 4)
-plt.imshow(noi1[:,:,:,5,5].transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.1, 0.1))
-plt.title('RR');
-fig.add_subplot(3, 2, 5)
-plt.imshow(d2[:,:,:,5,5].reshape(n1,n2*n3,order='F'),cmap='jet',clim=(-0.1, 0.1))
-plt.title('DRR');
-fig.add_subplot(3, 2, 6)
-plt.imshow(noi2[:,:,:,5,5].transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.1, 0.1))
-plt.title('DRR');
+ax=fig.add_subplot(3, 2, 3)
+plt.imshow(d1[:,:,:,5,5].reshape(n1,n2*n3,order='F'),cmap='jet',clim=(-0.05,0.05),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Reconstructed (RR, SNR=%.4g dB)'%snr1);
+ax=fig.add_subplot(3, 2, 4)
+plt.imshow(noi1[:,:,:,5,5].transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.05,0.05),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Error (RR)');
+ax=fig.add_subplot(3, 2, 5)
+plt.imshow(d2[:,:,:,5,5].reshape(n1,n2*n3,order='F'),cmap='jet',clim=(-0.05,0.05),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Reconstructed (DRR, SNR=%.4g dB)'%snr2);
+ax=fig.add_subplot(3, 2, 6)
+plt.imshow(noi2[:,:,:,5,5].transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.05,0.05),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Error (DRR)');
+plt.savefig('test_pydrr_drr5drecon.png',format='png',dpi=300);
 plt.show()
+
+
+
 
 
 
