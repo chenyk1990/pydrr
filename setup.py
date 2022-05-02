@@ -19,7 +19,7 @@ def read(*names, **kwargs):
 
 setup(
     name="pydrr",
-    version="0.0.1",
+    version="0.0.2",
     license='GNU General Public License, Version 3 (GPLv3)',
     description="A python package for the damped rank reduction (DRR) method and its variants. The DRR method has a variety of applications in seismology, including but not limited to seismic denoising, seismic reconstruction, seismic diffraction separation, constrained LSRTM, constrained FWI, etc.",
     long_description=long_description,

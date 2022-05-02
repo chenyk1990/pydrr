@@ -2,45 +2,47 @@ import numpy as np
 import scipy
 from scipy import linalg
 def drr3d(D, flow=1, fhigh=124, dt=0.004, N=1, K=3, verb=0):
-	#DRR3D: 3D rank-reduction method for denoising (also known as FXYDMSSA)
-	#
-	#IN   D:   	 intput 3D data (ndarray)
-	#     flow:   processing frequency range (lower)
-	#     fhigh:  processing frequency range (higher)
-	#     dt:     temporal sampling interval
-	#     N:      number of singular value to be preserved
-	#     K:     damping factor
-	#     verb:   verbosity flag (default: 0)
-	#
-	#OUT  D1:  	output data
-	#
-	#Copyright (C) 2013 The University of Texas at Austin
-	#Copyright (C) 2013 Yangkang Chen
-	#Modified 2015 by Yangkang Chen
-	#Ported to Python in 2022 by Yangkang Chen (Verified to be correct, the same as Matlab version)
-	#
-	#This program is free software: you can redistribute it and/or modify
-	#it under the terms of the GNU General Public License as published
-	#by the Free Software Foundation, either version 3 of the License, or
-	#any later version.
-	#
-	#This program is distributed in the hope that it will be useful,
-	#but WITHOUT ANY WARRANTY; without even the implied warranty of
-	#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	#GNU General Public License for more details: http://www.gnu.org/licenses/
-	#
-	#References:   
-	#
-	#[1] Chen, Y., W. Huang, D. Zhang, W. Chen, 2016, An open-source matlab code package for improved rank-reduction 3D seismic data denoising and reconstruction, Computers & Geosciences, 95, 59-66.
-	#[2] Chen, Y., D. Zhang, Z. Jin, X. Chen, S. Zu, W. Huang, and S. Gan, 2016, Simultaneous denoising and reconstruction of 5D seismic data via damped rank-reduction method, Geophysical Journal International, 206, 1695-1717.
-	#[3] Huang, W., R. Wang, Y. Chen, H. Li, and S. Gan, 2016, Damped multichannel singular spectrum analysis for 3D random noise attenuation, Geophysics, 81, V261-V270.
-	#[4] Chen et al., 2017, Preserving the discontinuities in least-squares reverse time migration of simultaneous-source data, Geophysics, 82, S185-S196.
-	#[5] Chen et al., 2019, Obtaining free USArray data by multi-dimensional seismic reconstruction, Nature Communications, 10:4434.
-	#
-	# DEMO
-	# demos/test_pydrr_drr2d.py
-	# demos/test_pydrr_drr3d.py
+	"""
+	DRR3D: 3D damped rank-reduction method for denoising (also known as FXYDMSSA)
 	
+	INPUT
+	D:   	intput 3D data (ndarray)
+	flow:   processing frequency range (lower)
+	fhigh:  processing frequency range (higher)
+	dt:     temporal sampling interval
+	N:      number of singular value to be preserved
+	K:      damping factor
+	verb:   verbosity flag (default: 0)
+	
+	OUTPUT  
+	D1:  	output data
+	
+	Copyright (C) 2013 The University of Texas at Austin
+	Copyright (C) 2013 Yangkang Chen
+	Modified 2015 by Yangkang Chen
+	Ported to Python in 2022 by Yangkang Chen (Verified to be correct, the same as Matlab version)
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published
+	by the Free Software Foundation, either version 3 of the License, or
+	any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details: http://www.gnu.org/licenses/
+	
+	References   
+	[1] Chen, Y., W. Huang, D. Zhang, W. Chen, 2016, An open-source matlab code package for improved rank-reduction 3D seismic data denoising and reconstruction, Computers & Geosciences, 95, 59-66.
+	[2] Chen, Y., D. Zhang, Z. Jin, X. Chen, S. Zu, W. Huang, and S. Gan, 2016, Simultaneous denoising and reconstruction of 5D seismic data via damped rank-reduction method, Geophysical Journal International, 206, 1695-1717.
+	[3] Huang, W., R. Wang, Y. Chen, H. Li, and S. Gan, 2016, Damped multichannel singular spectrum analysis for 3D random noise attenuation, Geophysics, 81, V261-V270.
+	[4] Chen et al., 2017, Preserving the discontinuities in least-squares reverse time migration of simultaneous-source data, Geophysics, 82, S185-S196.
+	[5] Chen et al., 2019, Obtaining free USArray data by multi-dimensional seismic reconstruction, Nature Communications, 10:4434.
+	
+	 DEMO
+	 demos/test_pydrr_drr2d.py
+	 demos/test_pydrr_drr3d.py
+	"""
 	print('flow=',flow,'fhigh=',fhigh,'dt=',dt,'N=',N,'K=',K,'verb=',verb)
 
 	if D.ndim==2:	#for 2D problems
@@ -97,45 +99,55 @@ def drr3d(D, flow=1, fhigh=124, dt=0.004, N=1, K=3, verb=0):
 	return D1
 
 def drr3drecon(D, MASK, flow=1, fhigh=124, dt=0.004, N=3, K=3, Niter=10,eps=0.00001,mode=0,a=1,verb=0):
-	#DRR3D: 3D rank-reduction method for denoising (also known as FXYDMSSA)
-	#
-	#IN   D:   	 intput 3D data (ndarray)
-	#     flow:   processing frequency range (lower)
-	#     fhigh:  processing frequency range (higher)
-	#     dt:     temporal sampling interval
-	#     N:      number of singular value to be preserved
-	#     K:     damping factor
-	#     verb:   verbosity flag (default: 0)
-	#
-	#OUT  D1:  	output data
-	#
-	#Copyright (C) 2013 The University of Texas at Austin
-	#Copyright (C) 2013 Yangkang Chen
-	#Modified 2015 by Yangkang Chen
-	#Ported to Python in 2022 by Yangkang Chen (Verified to be correct, the same as Matlab version)
-	#
-	#This program is free software: you can redistribute it and/or modify
-	#it under the terms of the GNU General Public License as published
-	#by the Free Software Foundation, either version 3 of the License, or
-	#any later version.
-	#
-	#This program is distributed in the hope that it will be useful,
-	#but WITHOUT ANY WARRANTY; without even the implied warranty of
-	#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	#GNU General Public License for more details: http://www.gnu.org/licenses/
-	#
-	#References:   
-	#
-	#[1] Chen, Y., W. Huang, D. Zhang, W. Chen, 2016, An open-source matlab code package for improved rank-reduction 3D seismic data denoising and reconstruction, Computers & Geosciences, 95, 59-66.
-	#[2] Chen, Y., D. Zhang, Z. Jin, X. Chen, S. Zu, W. Huang, and S. Gan, 2016, Simultaneous denoising and reconstruction of 5D seismic data via damped rank-reduction method, Geophysical Journal International, 206, 1695-1717.
-	#[3] Huang, W., R. Wang, Y. Chen, H. Li, and S. Gan, 2016, Damped multichannel singular spectrum analysis for 3D random noise attenuation, Geophysics, 81, V261-V270.
-	#[4] Chen et al., 2017, Preserving the discontinuities in least-squares reverse time migration of simultaneous-source data, Geophysics, 82, S185-S196.
-	#[5] Chen et al., 2019, Obtaining free USArray data by multi-dimensional seismic reconstruction, Nature Communications, 10:4434.
-	#
-	# DEMO
-	# demos/test_pydrr_drr2drecon.py
-	# demos/test_pydrr_drr3drecon.py
+	"""
+	DRR3DRECON: 3D damped rank-reduction method for denoising and reconstruction 
 	
+	INPUT  
+	D:   	 intput 3D data (ndarray)
+	MASK:	 sampling mask
+	flow:   processing frequency range (lower)
+	fhigh:  processing frequency range (higher)
+	dt:     temporal sampling interval
+	N:      number of singular value to be preserved
+	K:      damping factor
+	Niter:  number of iterations
+	eps:    termination parameter
+	Niter:  number of maximum iteration
+	eps:    tolerence (||S(n)-S(n-1)||_F<eps*S(n))
+	mode:   mode=1: denoising and reconstruction
+	        mode=0: reconstruction only
+	a:      linear-decreasing scale vector
+	verb:   verbosity flag (default: 0)
+	
+	OUTPUT  
+	D1:  	output data
+	
+	Copyright (C) 2013 The University of Texas at Austin
+	Copyright (C) 2013 Yangkang Chen
+	Modified 2015 by Yangkang Chen
+	Ported to Python in 2022 by Yangkang Chen (Verified to be correct, the same as Matlab version)
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published
+	by the Free Software Foundation, either version 3 of the License, or
+	any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details: http://www.gnu.org/licenses/
+	
+	References  
+	[1] Chen, Y., W. Huang, D. Zhang, W. Chen, 2016, An open-source matlab code package for improved rank-reduction 3D seismic data denoising and reconstruction, Computers & Geosciences, 95, 59-66.
+	[2] Chen, Y., D. Zhang, Z. Jin, X. Chen, S. Zu, W. Huang, and S. Gan, 2016, Simultaneous denoising and reconstruction of 5D seismic data via damped rank-reduction method, Geophysical Journal International, 206, 1695-1717.
+	[3] Huang, W., R. Wang, Y. Chen, H. Li, and S. Gan, 2016, Damped multichannel singular spectrum analysis for 3D random noise attenuation, Geophysics, 81, V261-V270.
+	[4] Chen et al., 2017, Preserving the discontinuities in least-squares reverse time migration of simultaneous-source data, Geophysics, 82, S185-S196.
+	[5] Chen et al., 2019, Obtaining free USArray data by multi-dimensional seismic reconstruction, Nature Communications, 10:4434.
+	
+	 DEMO
+	 demos/test_pydrr_drr2drecon.py
+	 demos/test_pydrr_drr3drecon.py
+	"""
 	
 
 	if mode==0:
