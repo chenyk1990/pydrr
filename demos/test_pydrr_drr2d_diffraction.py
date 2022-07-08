@@ -67,6 +67,6 @@ plt.title('LDRR reflection');
 plt.savefig('test_pydrr_drr2d_diffraction.png',format='png',dpi=300);
 plt.show()
 
-print(gcf,'-dpng','-r300','test_pydrr_drr2d_diffraction.png');
+
 
 
