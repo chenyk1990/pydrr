@@ -18,80 +18,53 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pydrr as pd #lo: local orthogonalization
 
-## generate the synthetic data
-a1=np.zeros([300,80])
-[n,m]=a1.shape
-a3=a1.copy();
-a4=a1.copy();
+## please first download the data from https://github.com/aaspip/data/blob/main/hevents.mat
 
-k=-1;
-a=0.1;
-b=1;
-pi=np.pi
+#load data
+import scipy
+from scipy import io
+datas=scipy.io.loadmat("hevents.mat")
+d=datas['d'];
+d=d/d.max();
+d0=d;
 
-ts=np.arange(-0.055,0.055+0.002,0.002)
-b1=np.zeros([len(ts)])
-b2=np.zeros([len(ts)])
-b3=np.zeros([len(ts)])
-b4=np.zeros([len(ts)])
-
-for t in ts:
-    k=k+1;
-    b1[k]=(1-2*(pi*30*t)*(pi*30*t))*np.exp(-(pi*30*t)*(pi*30*t));
-    b2[k]=(1-2*(pi*40*t)*(pi*40*t))*np.exp(-(pi*40*t)*(pi*40*t));
-    b3[k]=(1-2*(pi*40*t)*(pi*40*t))*np.exp(-(pi*40*t)*(pi*40*t));
-    b4[k]=(1-2*(pi*30*t)*(pi*30*t))*np.exp(-(pi*30*t)*(pi*30*t));
-
-t1=np.zeros([m],dtype='int')
-t3=np.zeros([m],dtype='int')
-t4=np.zeros([m],dtype='int')
-for i in range(m):
-  t1[i]=np.round(140);
-  t3[i]=np.round(-2*i+220);
-  t4[i]=np.round(2*i+10);
-  a1[t1[i]:t1[i]+k+1,i]=b1; 
-  a3[t3[i]:t3[i]+k+1,i]=b1; 
-  a4[t4[i]:t4[i]+k+1,i]=b1; 
-
-d0=a1[0:300,:]+a3[0:300,:]+a4[0:300,:];
-
-## add noise
-[n1,n2]=d0.shape
+[n1,n2]=d.shape;
 np.random.seed(201415)
 n=0.1*np.random.randn(n1,n2);
 dn=d0+n;
-print(np.std(dn))
-
 
 ## Comparison between RR and DRR
-d1=pd.drr3d(dn,0,120,0.004,3,3,1);	#RR 
+d1=pd.drr3d(dn,0,120,0.004,6,4,1);	#RR 
 noi1=dn-d1;
 
 n1win=50;n2win=20;n3win=1;r1=0.5;r2=0.5;r3=0.5;
-d2=pd.drr3d_win(dn,0,120,0.004,3,3,1,n1win,n2win,n3win,r1,r2,r3); #Windowed DRR or LDRR
+d2=pd.drr3d_win(dn,0,120,0.004,2,4,1,n1win,n2win,n3win,r1,r2,r3); #Windowed DRR or LDRR
 noi2=dn-d2;
 
 print('SNR of DRR is %g'%pd.snr(d0,d1));
 print('SNR of LDRR is %g'%pd.snr(d0,d2));
 
 ## plot results
-fig = plt.figure(figsize=(8, 8.5))
-ax = fig.add_subplot(3,2,1)
+fig = plt.figure(figsize=(10, 4))
+ax = fig.add_subplot(1,6,1)
+plt.imshow(d0,cmap='jet',clim=(-0.1, 0.1),aspect=0.2);ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Clean data');
+ax = fig.add_subplot(1,6,2)
 plt.imshow(dn,cmap='jet',clim=(-0.1, 0.1),aspect=0.2);ax.set_xticks([]);ax.set_yticks([]);
 plt.title('Noisy data');
-ax = fig.add_subplot(3,2,3)
+ax = fig.add_subplot(1,6,3)
 plt.imshow(d1,cmap='jet',clim=(-0.1, 0.1),aspect=0.2);ax.set_xticks([]);ax.set_yticks([]);
-plt.title('Denoised (RR, SNR=%.4g dB)'%pd.snr(d0,d1));
-ax = fig.add_subplot(3,2,4)
+plt.title('Denoised (DRR)');
+ax = fig.add_subplot(1,6,4)
 plt.imshow(noi1,cmap='jet',clim=(-0.1, 0.1),aspect=0.2);ax.set_xticks([]);ax.set_yticks([]);
-plt.title('Noise (RR)');
-ax = fig.add_subplot(3,2,5)
-plt.imshow(d2,cmap='jet',clim=(-0.1, 0.1),aspect=0.2);ax.set_xticks([]);ax.set_yticks([]);
-plt.title('Denoised (DRR, SNR=%.4g dB)'%pd.snr(d0,d2));
-ax = fig.add_subplot(3,2,6)
-plt.imshow(noi2,cmap='jet',clim=(-0.1, 0.1),aspect=0.2);ax.set_xticks([]);ax.set_yticks([]);
 plt.title('Noise (DRR)');
-plt.savefig('test_pydrr_drr2d.png',format='png',dpi=300);
+ax = fig.add_subplot(1,6,5)
+plt.imshow(d2,cmap='jet',clim=(-0.1, 0.1),aspect=0.2);ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Denoised (LDRR)');
+ax = fig.add_subplot(1,6,6)
+plt.imshow(noi2,cmap='jet',clim=(-0.1, 0.1),aspect=0.2);ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Noise (LDRR)');
+plt.savefig('test_pydrr_drr2d_win.png',format='png',dpi=300);
 plt.show()
 
 

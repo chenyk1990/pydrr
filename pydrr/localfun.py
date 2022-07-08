@@ -22,15 +22,16 @@ def localdrr3d( DATA_in, param ):
 	 Huang, W., R. Wang, Y. Chen, H. Li, and S. Gan, 2016, Damped multichannel singular spectrum analysis for 3D random noise attenuation, Geophysics, 81, V261-V270.
 	 Chen et al., 2017, Preserving the discontinuities in least-squares reverse time migration of simultaneous-source data, Geophysics, 82, S185-S196.
 	"""
-dt=param.dt;
-N=param.N;
-K=param.K;
-flow=param.flow;
-fhigh=param.fhigh;
-verb=param.verb;
+	from .drr3d import drr3d
+	
+	dt=param['dt'];
+	N=param['N'];
+	K=param['K'];
+	flow=param['flow'];
+	fhigh=param['fhigh'];
+	verb=param['verb'];
 
-DATA_out=drr3d(DATA_in,flow,fhigh,dt,N,K,verb);
-
+	DATA_out=drr3d(DATA_in,flow,fhigh,dt,N,K,verb);
 
 	return DATA_out
 	

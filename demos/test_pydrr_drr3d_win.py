@@ -16,7 +16,7 @@
 #This synthetic data was used in Huang et al., 2016, Damped multichannel singular spectrum analysis for 3D random noise attenuation, Geophysics, 81, V261-V270.
 import numpy as np
 import matplotlib.pyplot as plt
-import pydrr as pd #lo: local orthogonalization
+import pydrr as pd #pd: DRR
 
 ## generate the synthetic data
 a1=np.zeros([300,20])
@@ -75,12 +75,13 @@ np.random.seed(201415)
 n=0.2*np.random.randn(n1,n2,n3);
 dn=d0+n;
 print(np.std(dn))
+print(dn.shape)
 
 d1=pd.drr3d(dn,0,120,0.004,3,4);	#RR
 noi1=dn-d1;
 
-n1win=50;n2win=20;n3win=20;r1=0.5;r2=0.5;r3=0.5;
-d2=pd.drr3d_win(dn,0,120,0.004,3,4,1,n1win,n2win,n3win,r1,r2,r3); #Windowed DRR or LDRR
+n1win=300;n2win=20;n3win=20;r1=0.5;r2=0.5;r3=0.5;
+d2=pd.drr3d_win(dn,0,120,0.004,3,4,0,n1win,n2win,n3win,r1,r2,r3); #Windowed DRR or LDRR
 noi2=dn-d2;
 
 ## compare SNR
@@ -94,16 +95,16 @@ plt.imshow(dn.transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.1, 0.1),asp
 plt.title('Noisy data');
 ax=fig.add_subplot(3, 2, 3)
 plt.imshow(d1.reshape(n1,n2*n3,order='F'),cmap='jet',clim=(-0.1, 0.1),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
-plt.title('Denoised (RR, SNR=%.4g dB)'%pd.snr(d0,d1,2));
+plt.title('Denoised (DRR, SNR=%.4g dB)'%pd.snr(d0,d1,2));
 ax=fig.add_subplot(3, 2, 4)
 plt.imshow(noi1.transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.1, 0.1),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
-plt.title('Noise (RR)');
+plt.title('Noise (DRR)');
 ax=fig.add_subplot(3, 2, 5)
 plt.imshow(d2.reshape(n1,n2*n3,order='F'),cmap='jet',clim=(-0.1, 0.1),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
-plt.title('Denoised (DRR, SNR=%.4g dB)'%pd.snr(d0,d2,2));
+plt.title('Denoised (LDRR, SNR=%.4g dB)'%pd.snr(d0,d2,2));
 ax=fig.add_subplot(3, 2, 6)
 plt.imshow(noi2.transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.1, 0.1),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
-plt.title('Noise (DRR)');
+plt.title('Noise (LDRR)');
 plt.savefig('test_pydrr_drr3d.png',format='png',dpi=300);
 plt.show()
 
