@@ -13,7 +13,9 @@ __version__ = "0.0.0"
 from .drr3d import drr3d
 from .drr3d import drr3drecon
 from .drr3d_win import drr3d_win
+from .drr3d_win import drr3d_win_auto
 from .drr3d_win import drr3drecon_win
+from .drr3d_win import drr3drecon_win_auto
 from .drr5d import drr5d
 from .drr5d import drr5drecon
 from .snr import snr

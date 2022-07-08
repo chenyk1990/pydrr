@@ -16,7 +16,7 @@
 #This synthetic data was used in Huang et al., 2016, Damped multichannel singular spectrum analysis for 3D random noise attenuation, Geophysics, 81, V261-V270.
 import numpy as np
 import matplotlib.pyplot as plt
-import pydrr as pd #lo: local orthogonalization
+import pydrr as pd #pd: DRR
 
 #DATAPATH:
 #https://github.com/chenyk1990/reproducible_research/blob/master/odrr5d/matfun/yc_synth5d.mat

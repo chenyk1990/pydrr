@@ -1,4 +1,4 @@
-#  DEMO script (python version) for DRR
+#  DEMO script (python version) for localized DRR (DRR in windows)
 #  
 #  Copyright (C) 2022 Yangkang Chen
 #  
@@ -12,13 +12,18 @@
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details: http://www.gnu.org/licenses/
 #  
-## generate synthetic data
-#This synthetic data was used in Huang et al., 2016, Damped multichannel singular spectrum analysis for 3D random noise attenuation, Geophysics, 81, V261-V270.
+
 import numpy as np
 import matplotlib.pyplot as plt
-import pydrr as pd #lo: local orthogonalization
+import pydrr as pd #pd: DRR
+
 
 ## please first download the data from https://github.com/aaspip/data/blob/main/hevents.mat
+## 
+#This synthetic data was used previously in 
+#[1] Chen et al., 2015, Random noise attenuation by a selective hybrid approach using f − x empirical mode decomposition, JGE, 12, 12-25. 
+#[2] Chen and Fomel, 2018, EMD-seislet transform, Geophysics, 83, A27–A32.
+
 
 #load data
 import scipy
