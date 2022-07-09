@@ -336,7 +336,7 @@ def drr3drecon(D, MASK, flow=1, fhigh=124, dt=0.004, N=3, K=3, Niter=10,eps=0.00
 	
 	return D1
 
-def drr3drecon_auto(D, MASK, flow=1, fhigh=124, dt=0.004, N=3, K=3, Niter=10,eps=0.00001,mode=0,amode=2,a=1,verb=0,eps2=0.01):
+def drr3drecon_auto(D, MASK, flow=1, fhigh=124, dt=0.004, N=3, K=3, Niter=10,eps=0.00001,mode=0,a=1,verb=0,amode=2,eps2=0.01):
 	"""
 	DRR3DRECON: 3D damped rank-reduction method for denoising and reconstruction with automatically selected ranks
 	
@@ -529,9 +529,9 @@ def P_RDA(din,Nmin,Nmax,K,mode,eps):
 		N=Nmax;
 		df=np.zeros([Nmax,1]);
 		for i in range(0,Nmax):
-			df[i]= D[i]/D[i+1];
-
+			df[i]= D[i]/(D[i+1]+0.000000000000001);
 		N=np.where(df==np.max(df));
+		
 		N=N[0][0]+1;
 		if N<Nmin:
 			N=Nmin;

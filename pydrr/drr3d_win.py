@@ -147,7 +147,7 @@ def drr3d_win_auto(D,flow=1,fhigh=124,dt=0.004,N=1,K=4,verb=0,mode=2,n1win=None,
 		D1=np.squeeze(D1)
 	return D1
 	
-def drr3drecon_win(D,mask,flow=1,fhigh=124,dt=0.004,N=1,K=4,Niter=10,eps=0.00001,verb=0,mode=1,a=1,n1win=None,n2win=None,n3win=None,r1=0.5,r2=0.5,r3=0.5):
+def drr3drecon_win(D,mask,flow=1,fhigh=124,dt=0.004,N=1,K=4,Niter=10,eps=0.00001,mode=1,a=1,verb=0,n1win=None,n2win=None,n3win=None,r1=0.5,r2=0.5,r3=0.5):
 	"""
 	DRR3DRECON_WIN: DRR3DRECON in windows
 	
@@ -199,7 +199,7 @@ def drr3drecon_win(D,mask,flow=1,fhigh=124,dt=0.004,N=1,K=4,Niter=10,eps=0.00001
 	print('flow=',flow,'fhigh=',fhigh,'dt=',dt,'N=',N,'K=',K,'verb=',verb)
 	print('n1win=',n1win,'n2win=',n2win,'r1=',r1,'r2=',r2,'r3=',r3)
 	
-	from .window import win3d
+	from .window import win3dmask
 	from .localfun import localdrr3drecon
 	
 	if D.ndim==2:	#for 2D problems
@@ -216,11 +216,11 @@ def drr3drecon_win(D,mask,flow=1,fhigh=124,dt=0.004,N=1,K=4,Niter=10,eps=0.00001
 	param={'dt':dt,'flow':flow,'fhigh':fhigh,'N':N,'K':K,'verb':verb,'mode':mode,'niter':Niter,'a':a,'eps':eps}
 	#The N and K follows the definitions in Bai et al. (2020)
 	
-	D1=win3d(localdrr3drecon, mask, param, D, n1win, n2win, n3win, r1, r2, r3);
+	D1=win3dmask(localdrr3drecon, mask, param, D, n1win, n2win, n3win, r1, r2, r3);
 	
 	return D1
 
-def drr3drecon_win_auto(D,mask,flow=1,fhigh=124,dt=0.004,N=1,K=4,Niter=10,eps=0.00001,verb=0,mode=1,amode=2,a=1,eps2=0.001,n1win=None,n2win=None,n3win=None,r1=0.5,r2=0.5,r3=0.5):
+def drr3drecon_win_auto(D,mask,flow=1,fhigh=124,dt=0.004,N=1,K=4,Niter=10,eps=0.00001,mode=1,a=1,verb=0,amode=2,eps2=0.001,n1win=None,n2win=None,n3win=None,r1=0.5,r2=0.5,r3=0.5):
 	"""
 	DRR3DRECON_WIN: DRR3DRECON in windows
 	
@@ -272,7 +272,7 @@ def drr3drecon_win_auto(D,mask,flow=1,fhigh=124,dt=0.004,N=1,K=4,Niter=10,eps=0.
 	print('flow=',flow,'fhigh=',fhigh,'dt=',dt,'N=',N,'K=',K,'verb=',verb)
 	print('n1win=',n1win,'n2win=',n2win,'r1=',r1,'r2=',r2,'r3=',r3)
 	
-	from .window import win3d
+	from .window import win3dmask
 	from .localfun import localdrr3drecon_auto
 	
 	if D.ndim==2:	#for 2D problems
@@ -289,7 +289,7 @@ def drr3drecon_win_auto(D,mask,flow=1,fhigh=124,dt=0.004,N=1,K=4,Niter=10,eps=0.
 	param={'dt':dt,'flow':flow,'fhigh':fhigh,'N':N,'K':K,'verb':verb,'mode':mode,'amode':amode,'niter':Niter,'a':a,'eps':eps,'eps2':eps2}
 	#The N and K follows the definitions in Bai et al. (2020)
 	
-	D1=win3d(localdrr3drecon_auto, mask, param, D, n1win, n2win, n3win, r1, r2, r3);
+	D1=win3dmask(localdrr3drecon_auto, mask, param, D, n1win, n2win, n3win, r1, r2, r3);
 	
 	return D1
 

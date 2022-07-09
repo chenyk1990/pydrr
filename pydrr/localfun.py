@@ -171,7 +171,7 @@ def localdrr3drecon_auto(DATA_in, param ):
 	a=param['a'];
 	verb=param['verb'];
 
-	DATA_out=drr3drecon_auto(DATA_in,mask,flow,fhigh,dt,N,K,niter,eps,mode,amode,a,verb);
+	DATA_out=drr3drecon_auto(DATA_in,mask,flow,fhigh,dt,N,K,niter,eps,mode,a,verb,amode);
 
 	return DATA_out
 

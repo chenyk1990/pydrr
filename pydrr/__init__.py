@@ -19,6 +19,8 @@ from .drr3d_win import drr3drecon_win_auto
 from .drr5d import drr5d
 from .drr5d import drr5drecon
 from .snr import snr
+from .utils import scale
+from .bins import bin3d
 from .genmask import genmask
 
 
