@@ -48,23 +48,23 @@ diffr1=data-d1; #diffraction from LDRR
 print('SNR is %g'%pd.snr(diffr,diffr1));
 
 ## plot results
-fig = plt.figure(figsize=(14, 6))
-ax = fig.add_subplot(1,5,1)
-plt.imshow(data,cmap='jet',clim=(-0.1, 0.1),aspect=0.8);ax.set_xticks([]);ax.set_yticks([]);
-plt.title('Data');
-ax = fig.add_subplot(1,5,2)
-plt.imshow(diffr,cmap='jet',clim=(-0.1, 0.1),aspect=0.8);ax.set_xticks([]);ax.set_yticks([]);
-plt.title('Ground-truth diffraction');
-ax = fig.add_subplot(1,5,3)
-plt.imshow(data-diffr,cmap='jet',clim=(-0.1, 0.1),aspect=0.8);ax.set_xticks([]);ax.set_yticks([]);
-plt.title('Ground-truth reflection');
-ax = fig.add_subplot(1,5,4)
-plt.imshow(diffr1,cmap='jet',clim=(-0.1, 0.1),aspect=0.8);ax.set_xticks([]);ax.set_yticks([]);
-plt.title('LDRR diffraction');
-ax = fig.add_subplot(1,5,5)
-plt.imshow(data-diffr1,cmap='jet',clim=(-0.1, 0.1),aspect=0.8);ax.set_xticks([]);ax.set_yticks([]);
-plt.title('LDRR reflection');
-plt.savefig('test_pydrr_drr2d_diffraction.png',format='png',dpi=300);
+fig = plt.figure(figsize=(10, 7))
+ax=fig.add_subplot(3, 2, 1)
+plt.imshow(dn.transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.1, 0.1),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Noisy data');
+ax=fig.add_subplot(3, 2, 3)
+plt.imshow(d1.reshape(n1,n2*n3,order='F'),cmap='jet',clim=(-0.1, 0.1),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Denoised (DRR)');
+ax=fig.add_subplot(3, 2, 4)
+plt.imshow(noi1.transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.1, 0.1),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Noise (DRR)');
+ax=fig.add_subplot(3, 2, 5)
+plt.imshow(d2.reshape(n1,n2*n3,order='F'),cmap='jet',clim=(-0.1, 0.1),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Denoised (LDRR)');
+ax=fig.add_subplot(3, 2, 6)
+plt.imshow(noi2.transpose(0,2,1).reshape(n1,n2*n3),cmap='jet',clim=(-0.1, 0.1),aspect='auto');ax.set_xticks([]);ax.set_yticks([]);
+plt.title('Noise (LDRR)');
+plt.savefig('test_pydrr_drr3d_diffraction.png',format='png',dpi=300);
 plt.show()
 
 
