@@ -17,6 +17,12 @@ def read(*names, **kwargs):
         os.path.join(os.path.dirname(__file__), *names),
         encoding=kwargs.get("encoding", "utf8")).read()
 
+
+from distutils.core import Extension
+# defining calculator_module as an extension class instance.
+# 'calculator' is extension's name and sources is a file name list.
+calculator_module = Extension('calculator', sources=['pydrr/src/calculator.c'])
+
 setup(
     name="pydrr",
     version="0.0.2",
@@ -26,6 +32,7 @@ setup(
     author="pydrr developing team",
     author_email="chenyk2016@gmail.com",
     url="https://github.com/chenyk1990/pydrr",
+    ext_modules=[calculator_module],
     packages=['pydrr'],
     include_package_data=True,
     zip_safe=False,

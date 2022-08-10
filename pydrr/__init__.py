@@ -23,6 +23,8 @@ from .utils import scale
 from .bins import bin3d
 from .genmask import genmask
 
+# This is my first C-extension (more will be coming), the first step to make the codes faster
+from calculator import *
 
 
 
