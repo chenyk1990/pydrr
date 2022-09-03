@@ -48,8 +48,7 @@ BibTeX:
 
 -----------
 ## Copyright
-    Initial version: Yangkang Chen (chenyk2016@gmail.com), 2021-2022
-	Later version: pydrr developing team, 2022-present
+    pydrr developing team, 2021-present
 -----------
 
 ## License
